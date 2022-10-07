@@ -1,5 +1,4 @@
 import Hls from "hls.js";
-import axios from "axios";
 
 export class WebsocketService {
   private readonly player: HTMLVideoElement;
@@ -8,7 +7,6 @@ export class WebsocketService {
 
   private readonly manifestUrl: string;
   
-
   constructor(url: string, manifestUrl: string, player: HTMLVideoElement) {
     this.player = player;
     this.websocket = new WebSocket(url);
@@ -27,14 +25,22 @@ export class WebsocketService {
   }
 
   private initHls = () => {
-    const hls = new Hls();
-    hls.attachMedia(this.player);
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.attachMedia(this.player);
 
-    hls.loadSource(this.manifestUrl);
+      hls.loadSource(this.manifestUrl);
 
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      this.player.play();
-    });
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        this.player.play();
+      });
+    } else if (this.player.canPlayType('application/vnd.apple.mpegurl')) {
+      this.player.src = this.manifestUrl;
+
+      this.player.addEventListener('loadedmetadata', () => {
+        this.player.play();
+      });
+    }
   }
 
   private toArrayBuffer = (buf: Buffer): ArrayBuffer => {

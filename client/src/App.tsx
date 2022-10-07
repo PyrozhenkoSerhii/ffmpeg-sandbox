@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {WebsocketService} from "./service"
 
 const socketUrl = 'ws://localhost:8080';
@@ -9,15 +9,15 @@ function App() {
 
   const [service, setService] = useState<WebsocketService|null>(null);
 
-  useEffect(() => {
+  const onConnect = () => {
     if (playerRef.current) {
       setService(new WebsocketService(socketUrl, manifestUrl, playerRef.current));
     }
-  }, [playerRef]);
-
+  }
 
   return (
     <div style={{display: "flex", flexDirection: "column"}}>
+      <button onClick={onConnect} style={{width: 100}}>Connect</button>
       <button onClick={service?.playAction} style={{width: 100}}>Start</button>
       <video ref={playerRef} autoPlay playsInline muted style={{width: 720, height: 480, border: "1px solid gray"}} />
     </div>
