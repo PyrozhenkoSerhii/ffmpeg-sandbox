@@ -1,0 +1,13 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-ALLOW-CACHE:NO
+#EXT-X-TARGETDURATION:5
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:4.502,
+blob:http://localhost:3000/bf03e7f8-f707-4081-ba95-36a097a1e982
+#EXTINF:4.005,
+blob:http://localhost:3000/325bad4d-d248-43e8-8089-30a30a3ca65e
+#EXTINF:4.004,
+blob:http://localhost:3000/94570e79-e144-4c52-a3d4-ee3eb24470db
+#EXTINF:4.0115,
+blob:http://localhost:3000/1619d1d4-4550-4bd0-a797-6adaa62b43c1

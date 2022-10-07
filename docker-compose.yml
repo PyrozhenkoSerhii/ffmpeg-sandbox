@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  decrypter:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: decrypter
+    command: npm run start
+    volumes:
+      - ./src:/root/server/src:rw

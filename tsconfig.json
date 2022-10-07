@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "downlevelIteration": true,
+    "baseUrl": "./",
+    "rootDir": ".",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "lib": ["es2020"],
+    "target": "es2020",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "allowJs": true,
+  }
+}

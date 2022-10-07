@@ -1,0 +1,2 @@
+openssl enc -aes-128-cbc -d -in ./video.ts -out decoded.ts -K 9C171BA42D8F96FE339CB9D06FBC3F8C -iv 00000000000000000000000000000160
+openssl enc -aes-128-cbc -d -in ./video.ts -out decoded.ts -K 9C171BA42D8F96FE339CB9D06FBC3F8C -iv 00000000000000000000000000000160
