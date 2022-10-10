@@ -22,6 +22,11 @@ app.use(express.static(join(__dirname, 'stream')))
 
 const httpServer = createServer(app);
 
+const str = "START0.ts0000000101";
+
+const metaTest = Buffer.from(str, "utf-8");
+console.log(metaTest);
+
 const wsServer = new websocket.server({ httpServer });
 wsServer.on('request', (req) => {
   const segments: ISegment[] = parsed.segments.map((s) => ({uri: s.uri, duration: s.duration}));
@@ -31,7 +36,8 @@ wsServer.on('request', (req) => {
 
   for (let segment of parsed.segments) {
     const segmentBytes = readFileSync(`${__dirname}/stream/${segment.uri}`);
-    conn.send(JSON.stringify({ uri: segment.uri, bytes: segmentBytes }));
+    const newBuffer = Buffer.concat([metaTest, segmentBytes]);
+    conn.sendBytes(newBuffer);
   }
 
   conn.on("message", (message) => {

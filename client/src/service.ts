@@ -19,9 +19,32 @@ export class WebsocketService {
     this.websocket.binaryType = "arraybuffer";
     
     this.websocket.onmessage = (message) => {
-      const data = JSON.parse(message.data);
-      this.onMessage(data.uri, data.bytes.data)
+      console.log(message.data);
+      const uint8array = new Uint8Array(message.data);
+
+      const meta = uint8array.slice(0, 19);
+      const segment = uint8array.slice(19);
+
+      this.parseMeta(meta);
+
+      // const data = JSON.parse(message.data);
+      // this.onSegment(segment)
     }
+  }
+
+  private parseMeta = (meta: Uint8Array) => {
+    const startFlagBytes = meta.slice(0, 5);
+    const nameBytes = meta.slice(5, 15);
+    const lengthBytes = meta.slice(15);
+
+    const decoder = new TextDecoder();
+    
+    const startFlag = decoder.decode(startFlagBytes);
+    const name = decoder.decode(nameBytes);
+    const length = decoder.decode(lengthBytes);
+
+    console.log(`[Decoded] is START: ${startFlag}. Name: ${name}. Length: ${length}`);
+
   }
 
   private initHls = () => {
@@ -52,13 +75,14 @@ export class WebsocketService {
     return ab;
 }
 
-  private onMessage = async (uri: string, chunk: Buffer) => {
-    const buffer = this.toArrayBuffer(chunk);
-    console.log(`Got ${uri}: `, buffer);
-    const blob = new Blob([buffer]);
+  private onSegment = async (chunk: ArrayBuffer) => {
+    // console.log(chunk);
+    // const buffer = this.toArrayBuffer(chunk);
+    // console.log(`Got ${uri}: `, chunk);
+    const blob = new Blob([chunk]);
     const url = URL.createObjectURL(blob);
-    // this.downloadURL(url, uri)
-    this.websocket.send(JSON.stringify({uri, url}));
+    this.downloadURL(url, 'test.ts')
+    // this.websocket.send(JSON.stringify({uri, url}));
   }
 
   public playAction = () => {

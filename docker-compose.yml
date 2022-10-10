@@ -1,11 +1,19 @@
 version: '3'
 
 services:
-  decrypter:
+  # decrypter:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile
+  #   container_name: decrypter
+  #   command: npm run start
+  #   volumes:
+  #     - ./src:/root/server/src:rw
+  chromakey:
     build:
-      context: ./
+      context: ./chromakey
       dockerfile: ./Dockerfile
-    container_name: decrypter
+    container_name: chromakey
     command: npm run start
     volumes:
-      - ./src:/root/server/src:rw
+      - ./chromakey/src:/root/chromakey/src:rw
